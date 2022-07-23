@@ -52,9 +52,7 @@ func connectToDatabase(){
 	
 	pw := viper.GetString("DBPASSWORD")
 	url := viper.GetString("DBURL")
-	log.Println(url)
 	dsn := fmt.Sprintf("host=%s user=postgres password=%s port=5432 sslmode=disable",url,pw)
-	log.Println(dsn)
 	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err!=nil{
 		log.Fatalln(err)
