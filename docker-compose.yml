@@ -1,10 +1,51 @@
 version: "3.3"
 
 services:
+  web:
+    image: pueblomo/watering-reminder-frontend:5
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    environment:
+      REACT_APP_SERVER_URL: /api
+    networks:
+      - backend
+
+  backend:
+    image: pueblomo/watering-reminder-backend:2
+    restart: always
+    ports:
+      - "8080"
+    depends_on:
+      - db
+    volumes:
+      - ./images:/app/images
+    environment:
+      - DBURL=db
+      - DBPASSWORD=example
+    networks:
+      - backend
+      - service
+
   db:
     image: postgres
     restart: always
     ports:
-      - 5432:5432
+      - "5432"
+    volumes:
+      - watering-data:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: example
+    networks:
+      - service
+
+networks:
+  backend:
+    driver: bridge
+  service:
+    driver: bridge
+
+volumes:
+  watering-data:
