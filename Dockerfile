@@ -1,18 +1,18 @@
-FROM golang:1.18 AS builder
+FROM golang:alpine AS builder
 
 WORKDIR /app
 
 # pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
-COPY go.mod ./
-COPY go.sum ./
-RUN go mod download && go mod verify
+ADD go.mod .
+ADD go.sum .
 
-COPY . ./
-RUN go build -o /docker-go-wr
+COPY . .
+RUN go build -o wr main.go
 
-FROM scratch
-COPY --from=builder /docker-go-wr /docker-go-wr
+FROM alpine
+WORKDIR /app
+COPY --from=builder /app/wr /app/wr
 
 EXPOSE 8080
 
-CMD ["/docker-go-wr"]
+CMD ["./wr"]
