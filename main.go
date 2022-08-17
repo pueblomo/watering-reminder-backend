@@ -30,6 +30,7 @@ type Plant struct {
 	ImageName        string    `json:"imageName"`
 	UserName         string    `json:"userName"`
 	Date             time.Time `json:"date"`
+	Interval         int       `json:"interval"`
 }
 
 var db *gorm.DB
