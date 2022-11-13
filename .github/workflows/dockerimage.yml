@@ -9,7 +9,7 @@ jobs:
       DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/watering-reminder-backend
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      DOCKER_TARGET_PLATFORM: linux/arm/v7
+      DOCKER_TARGET_PLATFORM: linux/amd64
     steps:
       - name: Checkout the code
         uses: actions/checkout@v1
